@@ -18,6 +18,11 @@ ABC123_source_code/ (Amennyiben Terraformot használt)
  - 1 db Virtual Machine (Virtuális gép) konfigurálása és hálózati beállítása.
  - 1 db Storage Account
 
+vagy
+
+Egy szabadon választott AZ-900 elméleti témakör (pl. Cloud Concepts, Azure Architecture, Governance vagy Cloud Security) részletes szakmai kifejtése és dokumentálása.
+Összekötve CI/CD pipeline tervezéssel pl.: Azure DevOps (build, release pipeline, AZ AppServices)
+
 * Jeles (5): Teljes alap-infrastruktúra kiépítése (Portálon vagy Terraformmal):
  - 1 db Resource Group (Erőforráscsoport).
  - 1 db Virtual Machine (Virtuális gép).
