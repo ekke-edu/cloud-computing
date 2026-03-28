@@ -23,5 +23,8 @@ A feladatok futtatásához az alábbiak szükségesek:
 - [Azure Portal](portal.azure.com)
 - Visual Studio Code
 
+## Link
+https://mslearn.cloudguides.com/guides/AZ-900%20Exam%20Guide%20-%20Azure%20Fundamentals
+
 ---
 *Készült a 2025/26-os tanévben.*
