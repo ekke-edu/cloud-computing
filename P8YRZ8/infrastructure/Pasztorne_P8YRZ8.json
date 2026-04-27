@@ -1,0 +1,850 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vulnerabilityAssessments_Default_storageContainerPath": {
+      "type": "SecureString"
+    },
+    "servers_kiszolg01_name": {
+      "type": "String"
+    },
+    "virtualMachines_PMD_name": {
+      "type": "String"
+    },
+    "publicIPAddresses_PMD_ip_name": {
+      "type": "String"
+    },
+    "virtualNetworks_PMD_vnet_name": {
+      "type": "String"
+    },
+    "networkInterfaces_pmd928_z3_name": {
+      "type": "String"
+    },
+    "networkSecurityGroups_PMD_nsg_name": {
+      "type": "String"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "2025-05-01",
+      "name": "[parameters('networkSecurityGroups_PMD_nsg_name')]",
+      "location": "westeurope",
+      "properties": {
+        "securityRules": [
+          {
+            "name": "HTTP",
+            "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', parameters('networkSecurityGroups_PMD_nsg_name'), 'HTTP')]",
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "properties": {
+              "protocol": "TCP",
+              "sourcePortRange": "*",
+              "destinationPortRange": "80",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 300,
+              "direction": "Inbound",
+              "sourcePortRanges": [],
+              "destinationPortRanges": [],
+              "sourceAddressPrefixes": [],
+              "destinationAddressPrefixes": []
+            }
+          },
+          {
+            "name": "Dius",
+            "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', parameters('networkSecurityGroups_PMD_nsg_name'), 'Dius')]",
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+            "properties": {
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "3389",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 310,
+              "direction": "Inbound",
+              "sourcePortRanges": [],
+              "destinationPortRanges": [],
+              "sourceAddressPrefixes": [],
+              "destinationAddressPrefixes": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2025-05-01",
+      "name": "[parameters('publicIPAddresses_PMD_ip_name')]",
+      "location": "westeurope",
+      "sku": {
+        "name": "Standard",
+        "tier": "Regional"
+      },
+      "zones": [
+        "3"
+      ],
+      "properties": {
+        "ipAddress": "132.220.216.173",
+        "publicIPAddressVersion": "IPv4",
+        "publicIPAllocationMethod": "Static",
+        "idleTimeoutInMinutes": 4,
+        "ipTags": [],
+        "ddosSettings": {
+          "protectionMode": "VirtualNetworkInherited"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2025-05-01",
+      "name": "[parameters('virtualNetworks_PMD_vnet_name')]",
+      "location": "westeurope",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "10.0.0.0/16"
+          ]
+        },
+        "privateEndpointVNetPolicies": "Disabled",
+        "subnets": [
+          {
+            "name": "default",
+            "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_PMD_vnet_name'), 'default')]",
+            "properties": {
+              "addressPrefix": "10.0.0.0/24",
+              "delegations": [],
+              "privateEndpointNetworkPolicies": "Disabled",
+              "privateLinkServiceNetworkPolicies": "Enabled"
+            },
+            "type": "Microsoft.Network/virtualNetworks/subnets"
+          }
+        ],
+        "virtualNetworkPeerings": [],
+        "enableDdosProtection": false
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[parameters('servers_kiszolg01_name')]",
+      "location": "northeurope",
+      "kind": "v12.0",
+      "properties": {
+        "administratorLogin": "Dius",
+        "version": "12.0",
+        "minimalTlsVersion": "1.2",
+        "publicNetworkAccess": "Enabled",
+        "restrictOutboundNetworkAccess": "Disabled",
+        "retentionDays": -1
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines",
+      "apiVersion": "2025-04-01",
+      "name": "[parameters('virtualMachines_PMD_name')]",
+      "location": "westeurope",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_pmd928_z3_name'))]"
+      ],
+      "zones": [
+        "3"
+      ],
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "Standard_D2s_v3"
+        },
+        "additionalCapabilities": {
+          "hibernationEnabled": false
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "MicrosoftWindowsDesktop",
+            "offer": "Windows-10",
+            "sku": "rs5-enterprisen-g2",
+            "version": "latest"
+          },
+          "osDisk": {
+            "osType": "Windows",
+            "name": "[concat(parameters('virtualMachines_PMD_name'), '_OsDisk_1_c8dc83beaa534a0caaa49477175a3945')]",
+            "createOption": "FromImage",
+            "caching": "ReadWrite",
+            "managedDisk": {
+              "storageAccountType": "Standard_LRS",
+              "id": "[resourceId('Microsoft.Compute/disks', concat(parameters('virtualMachines_PMD_name'), '_OsDisk_1_c8dc83beaa534a0caaa49477175a3945'))]"
+            },
+            "deleteOption": "Delete",
+            "diskSizeGB": 127
+          },
+          "dataDisks": [],
+          "diskControllerType": "SCSI"
+        },
+        "osProfile": {
+          "computerName": "[parameters('virtualMachines_PMD_name')]",
+          "adminUsername": "Dius",
+          "windowsConfiguration": {
+            "provisionVMAgent": true,
+            "enableAutomaticUpdates": true,
+            "patchSettings": {
+              "patchMode": "AutomaticByOS",
+              "assessmentMode": "ImageDefault",
+              "enableHotpatching": false
+            }
+          },
+          "secrets": [],
+          "allowExtensionOperations": true,
+          "requireGuestProvisionSignal": true
+        },
+        "securityProfile": {
+          "uefiSettings": {
+            "secureBootEnabled": true,
+            "vTpmEnabled": true
+          },
+          "securityType": "TrustedLaunch"
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_pmd928_z3_name'))]",
+              "properties": {
+                "deleteOption": "Detach"
+              }
+            }
+          ]
+        },
+        "diagnosticsProfile": {
+          "bootDiagnostics": {
+            "enabled": true
+          }
+        },
+        "licenseType": "Windows_Client"
+      }
+    },
+    {
+      "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+      "apiVersion": "2025-05-01",
+      "name": "[concat(parameters('networkSecurityGroups_PMD_nsg_name'), '/Dius')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_PMD_nsg_name'))]"
+      ],
+      "properties": {
+        "protocol": "*",
+        "sourcePortRange": "*",
+        "destinationPortRange": "3389",
+        "sourceAddressPrefix": "*",
+        "destinationAddressPrefix": "*",
+        "access": "Allow",
+        "priority": 310,
+        "direction": "Inbound",
+        "sourcePortRanges": [],
+        "destinationPortRanges": [],
+        "sourceAddressPrefixes": [],
+        "destinationAddressPrefixes": []
+      }
+    },
+    {
+      "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+      "apiVersion": "2025-05-01",
+      "name": "[concat(parameters('networkSecurityGroups_PMD_nsg_name'), '/HTTP')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_PMD_nsg_name'))]"
+      ],
+      "properties": {
+        "protocol": "TCP",
+        "sourcePortRange": "*",
+        "destinationPortRange": "80",
+        "sourceAddressPrefix": "*",
+        "destinationAddressPrefix": "*",
+        "access": "Allow",
+        "priority": 300,
+        "direction": "Inbound",
+        "sourcePortRanges": [],
+        "destinationPortRanges": [],
+        "sourceAddressPrefixes": [],
+        "destinationAddressPrefixes": []
+      }
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworks/subnets",
+      "apiVersion": "2025-05-01",
+      "name": "[concat(parameters('virtualNetworks_PMD_vnet_name'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_PMD_vnet_name'))]"
+      ],
+      "properties": {
+        "addressPrefix": "10.0.0.0/24",
+        "delegations": [],
+        "privateEndpointNetworkPolicies": "Disabled",
+        "privateLinkServiceNetworkPolicies": "Enabled"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/advancedThreatProtectionSettings",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/Default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "state": "Disabled"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/advisors",
+      "apiVersion": "2014-04-01",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/CreateIndex')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "autoExecuteValue": "Disabled"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/advisors",
+      "apiVersion": "2014-04-01",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/DbParameterization')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "autoExecuteValue": "Disabled"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/advisors",
+      "apiVersion": "2014-04-01",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/DefragmentIndex')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "autoExecuteValue": "Disabled"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/advisors",
+      "apiVersion": "2014-04-01",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/DropIndex')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "autoExecuteValue": "Disabled"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/advisors",
+      "apiVersion": "2014-04-01",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/ForceLastGoodPlan')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "autoExecuteValue": "Enabled"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/auditingPolicies",
+      "apiVersion": "2014-04-01",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/Default')]",
+      "location": "North Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "auditingState": "Disabled"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/auditingSettings",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/Default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "retentionDays": 0,
+        "auditActionsAndGroups": [],
+        "isStorageSecondaryKeyInUse": false,
+        "isAzureMonitorTargetEnabled": false,
+        "isManagedIdentityInUse": false,
+        "state": "Disabled",
+        "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/connectionPolicies",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/default')]",
+      "location": "northeurope",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "connectionType": "Default"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/PMD_Adatb1')]",
+      "location": "northeurope",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "sku": {
+        "name": "GP_S_Gen5",
+        "tier": "GeneralPurpose",
+        "family": "Gen5",
+        "capacity": 2
+      },
+      "kind": "v12.0,user,vcore,serverless",
+      "properties": {
+        "collation": "SQL_Latin1_General_CP1_CI_AS",
+        "maxSizeBytes": 9663676416,
+        "catalogCollation": "SQL_Latin1_General_CP1_CI_AS",
+        "zoneRedundant": false,
+        "readScale": "Disabled",
+        "autoPauseDelay": 60,
+        "requestedBackupStorageRedundancy": "Local",
+        "minCapacity": 0.5,
+        "maintenanceConfigurationId": "/subscriptions/5b0342c8-9440-4392-a93a-38067ad27009/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default",
+        "isLedgerOn": false,
+        "availabilityZone": "NoPreference"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases/advancedThreatProtectionSettings",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/master/Default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "state": "Disabled"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases/auditingPolicies",
+      "apiVersion": "2014-04-01",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/master/Default')]",
+      "location": "North Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "auditingState": "Disabled"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases/auditingSettings",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/master/Default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "retentionDays": 0,
+        "isAzureMonitorTargetEnabled": false,
+        "state": "Disabled",
+        "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases/extendedAuditingSettings",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/master/Default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "retentionDays": 0,
+        "isAzureMonitorTargetEnabled": false,
+        "state": "Disabled",
+        "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases/geoBackupPolicies",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/master/Default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "state": "Disabled"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases/ledgerDigestUploads",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/master/Current')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {}
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases/securityAlertPolicies",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/master/Default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "state": "Disabled",
+        "disabledAlerts": [
+          ""
+        ],
+        "emailAddresses": [
+          ""
+        ],
+        "emailAccountAdmins": false,
+        "retentionDays": 0
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases/transparentDataEncryption",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/master/Current')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "state": "Disabled"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/master/Default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "recurringScans": {
+          "isEnabled": false,
+          "emailSubscriptionAdmins": true
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/devOpsAuditingSettings",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/Default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "isAzureMonitorTargetEnabled": false,
+        "isManagedIdentityInUse": false,
+        "state": "Disabled",
+        "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/encryptionProtector",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/current')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "kind": "servicemanaged",
+      "properties": {
+        "serverKeyName": "ServiceManaged",
+        "serverKeyType": "ServiceManaged",
+        "autoRotationEnabled": false
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/extendedAuditingSettings",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/Default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "retentionDays": 0,
+        "auditActionsAndGroups": [],
+        "isStorageSecondaryKeyInUse": false,
+        "isAzureMonitorTargetEnabled": false,
+        "isManagedIdentityInUse": false,
+        "state": "Disabled",
+        "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/firewallRules",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/ClientIPAddress_2026-4-26_21-35-48')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "startIpAddress": "84.0.144.49",
+        "endIpAddress": "84.0.144.49"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/keys",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/ServiceManaged')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "kind": "servicemanaged",
+      "properties": {
+        "serverKeyType": "ServiceManaged"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/securityAlertPolicies",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/Default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "state": "Disabled",
+        "disabledAlerts": [
+          ""
+        ],
+        "emailAddresses": [
+          ""
+        ],
+        "emailAccountAdmins": false,
+        "retentionDays": 0
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/sqlVulnerabilityAssessments",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/Default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "state": "Disabled"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/vulnerabilityAssessments",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/Default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "recurringScans": {
+          "isEnabled": false,
+          "emailSubscriptionAdmins": true
+        },
+        "storageContainerPath": "[parameters('vulnerabilityAssessments_Default_storageContainerPath')]"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases/advancedThreatProtectionSettings",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/PMD_Adatb1/Default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_kiszolg01_name'), 'PMD_Adatb1')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "state": "Disabled"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases/auditingPolicies",
+      "apiVersion": "2014-04-01",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/PMD_Adatb1/Default')]",
+      "location": "North Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_kiszolg01_name'), 'PMD_Adatb1')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "auditingState": "Disabled"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases/auditingSettings",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/PMD_Adatb1/Default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_kiszolg01_name'), 'PMD_Adatb1')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "retentionDays": 0,
+        "isAzureMonitorTargetEnabled": false,
+        "state": "Disabled",
+        "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/PMD_Adatb1/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_kiszolg01_name'), 'PMD_Adatb1')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "timeBasedImmutability": "Disabled",
+        "weeklyRetention": "PT0S",
+        "monthlyRetention": "PT0S",
+        "yearlyRetention": "PT0S",
+        "weekOfYear": 0
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases/backupShortTermRetentionPolicies",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/PMD_Adatb1/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_kiszolg01_name'), 'PMD_Adatb1')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "retentionDays": 7,
+        "diffBackupIntervalInHours": 12
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases/extendedAuditingSettings",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/PMD_Adatb1/Default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_kiszolg01_name'), 'PMD_Adatb1')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "retentionDays": 0,
+        "isAzureMonitorTargetEnabled": false,
+        "state": "Disabled",
+        "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases/geoBackupPolicies",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/PMD_Adatb1/Default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_kiszolg01_name'), 'PMD_Adatb1')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "state": "Disabled"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases/ledgerDigestUploads",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/PMD_Adatb1/Current')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_kiszolg01_name'), 'PMD_Adatb1')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {}
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases/securityAlertPolicies",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/PMD_Adatb1/Default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_kiszolg01_name'), 'PMD_Adatb1')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "state": "Disabled",
+        "disabledAlerts": [
+          ""
+        ],
+        "emailAddresses": [
+          ""
+        ],
+        "emailAccountAdmins": false,
+        "retentionDays": 0
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases/transparentDataEncryption",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/PMD_Adatb1/Current')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_kiszolg01_name'), 'PMD_Adatb1')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "state": "Enabled"
+      }
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments",
+      "apiVersion": "2024-11-01-preview",
+      "name": "[concat(parameters('servers_kiszolg01_name'), '/PMD_Adatb1/Default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_kiszolg01_name'), 'PMD_Adatb1')]",
+        "[resourceId('Microsoft.Sql/servers', parameters('servers_kiszolg01_name'))]"
+      ],
+      "properties": {
+        "recurringScans": {
+          "isEnabled": false,
+          "emailSubscriptionAdmins": true
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2025-05-01",
+      "name": "[parameters('networkInterfaces_pmd928_z3_name')]",
+      "location": "westeurope",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_PMD_ip_name'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_PMD_vnet_name'), 'default')]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_PMD_nsg_name'))]"
+      ],
+      "kind": "Regular",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "id": "[concat(resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_pmd928_z3_name')), '/ipConfigurations/ipconfig1')]",
+            "type": "Microsoft.Network/networkInterfaces/ipConfigurations",
+            "properties": {
+              "privateIPAddress": "10.0.0.4",
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_PMD_ip_name'))]",
+                "properties": {
+                  "deleteOption": "Detach"
+                }
+              },
+              "subnet": {
+                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_PMD_vnet_name'), 'default')]"
+              },
+              "primary": true,
+              "privateIPAddressVersion": "IPv4"
+            }
+          }
+        ],
+        "dnsSettings": {
+          "dnsServers": []
+        },
+        "enableAcceleratedNetworking": false,
+        "enableIPForwarding": false,
+        "disableTcpStateTracking": false,
+        "networkSecurityGroup": {
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_PMD_nsg_name'))]"
+        },
+        "nicType": "Standard",
+        "auxiliaryMode": "None",
+        "auxiliarySku": "None"
+      }
+    }
+  ]
+}
