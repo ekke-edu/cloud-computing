@@ -1,0 +1,16 @@
+site_name: Cloud Course - EKKE
+nav:
+  - Home: index.md
+  - Lectures:
+      - Lecture 1: lectures/lecture1.md
+      - Lecture 2: lectures/lecture2.md
+      - Lecture 3: lectures/lecture3.md
+      - Lecture 4: lectures/lecture4.md
+      - Lecture 5: lectures/lecture5.md
+      - Lecture 6: lectures/lecture6.md
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
