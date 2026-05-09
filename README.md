@@ -11,23 +11,39 @@ ABC123_Dokumentacio/ (Elméleti kifejtés és screenshotok)
 ABC123_source_code/ (Amennyiben Terraformot használt)
 
 ## Beadandó követelmények
-* Közepes (3): Egy szabadon választott AZ-900 elméleti témakör (pl. Cloud Concepts, Azure Architecture, Governance vagy Cloud Security) részletes szakmai kifejtése és dokumentálása.
+* Közepes (3):
+  * Egy szabadon választott AZ-900 elméleti témakör (pl. Cloud Concepts, Azure Architecture, Governance vagy Cloud Security) részletes szakmai kifejtése és dokumentálása.
+  VAGY
+  * Szabadon választott (Gitlab, Github) CI/CD pipeline témakör (Actions, Pages)
 
-* Jó (4): Alapvető infrastruktúra kiépítése (Portálon vagy Terraformmal):
- - 1 db Resource Group (Erőforráscsoport) létrehozása.
- - 1 db Virtual Machine (Virtuális gép) konfigurálása és hálózati beállítása.
- - 1 db Storage Account
+* Jó (4):
+  * Alapvető infrastruktúra kiépítése (Portálon vagy Terraformmal):
+    - 1 db Resource Group (Erőforráscsoport) létrehozása.
+    - 1 db Virtual Machine (Virtuális gép) konfigurálása és hálózati beállítása.
+    - 1 db Storage Account
 
-vagy
+VAGY
 
-Egy szabadon választott AZ-900 elméleti témakör (pl. Cloud Concepts, Azure Architecture, Governance vagy Cloud Security) részletes szakmai kifejtése és dokumentálása.
-Összekötve CI/CD pipeline tervezéssel pl.: Azure DevOps (build, release pipeline, AZ AppServices)
+  * Egy szabadon választott AZ-900 elméleti témakör (pl. Cloud Concepts, Azure Architecture, Governance vagy Cloud Security) részletes szakmai kifejtése és dokumentálása.
+   Összekötve CI/CD pipeline tervezéssel pl.: Azure DevOps (build, release pipeline, AZ AppServices)
 
-* Jeles (5): Teljes alap-infrastruktúra kiépítése (Portálon vagy Terraformmal):
- - 1 db Resource Group (Erőforráscsoport).
- - 1 db Virtual Machine (Virtuális gép).
- - 1 db Azure SQL Server (Adatbázis szolgáltatás) létrehozása és konfigurálása.
+VAGY
+  * Gitlab/Github Mkdocs CI/CD dokumentálva
+    
+* Jeles (5):
+  * Teljes alap-infrastruktúra kiépítése (Portálon vagy Terraformmal):
+    - 1 db Resource Group (Erőforráscsoport).
+    - 1 db Virtual Machine (Virtuális gép).
+    - 1 db Azure SQL Server (Adatbázis szolgáltatás) létrehozása és konfigurálása.
 
+VAGY
+  * GitLab/Github Webapp (React, Angular, Vue stb.) CI/CD, Mkdocs, dokumentálva
+
+## Határidő
+Leadási határidő: 2026.május 31.
+
+Ha nem tartható (indokolt esetben), írj levelet.
+     
 ## Értékelési szempontok
 Az elméleti kifejtés pontossága és mélysége (3-as szint esetén).
 
