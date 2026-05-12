@@ -17,7 +17,7 @@ A feladat két, szabadon választott témakör részletes szakmai kifejtését k
 DVXH78/
 ├── DVXH78_README.md          ← ez a fájl (összefoglaló)
 └── DVXH78_Dokumentacio/
-    ├── beadando.docx         ← elméleti kifejtés (2 témakör, 7 oldal A4)
+    ├── beadando.pdf          ← elméleti kifejtés (2 témakör, 7 oldal A4)
     ├── deploy.yml            ← működő példa workflow
     └── screenshots/          ← képernyőképek a CI/CD részhez
 ```
@@ -28,6 +28,6 @@ A `deploy.yml` egy tetszőleges, statikus tartalmat (HTML/CSS/JS a `docs/` köny
 
 1. A workflow-fájlt helyezd el `.github/workflows/deploy.yml` néven.
 2. A repository **Settings → Pages** menüjében a *Source* értékét állítsd **GitHub Actions**-re.
-3. A `main` ágra push után a futás automatikusan elindul, a publikált oldal a `https://<felhasználó>.github.io/<repo>/` URL-en lesz elérhető.
+3. A `main` ágra push után a futás automatikusan elindul, a publikált oldal a `https://illesB97.github.io/pages_bemutato/` URL-en lesz elérhető.
 
-A részletes magyarázat — lépésről lépésre — a `beadando.docx` II. fejezetében található.
+A részletes magyarázat — lépésről lépésre — a `beadando.pdf` II. fejezetében található.
