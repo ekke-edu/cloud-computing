@@ -1,0 +1,22 @@
+# Felhőalapú Számítástechnika – Féléves Beadandó
+
+**Készítette:** Talpas Adrián
+**Neptun-kód:** G8ALX0
+
+Ez a fájl a féléves projektmunka gyors áttekintője és kísérődokumentuma. A részletes, mindenre kiterjedő szakmai kifejtést, a hálózati modellezést és a futtatott kódok magyarázatát a gyökérkönyvtárban található **G8ALX0_Dokumentacio.pdf** fájl tartalmazza.
+
+## 📂 Beadandó Struktúra
+
+* `G8ALX0_README.md` – Ez a kísérőfájl (gyors áttekintés).
+* `G8ALX0_Dokumentacio.pdf` – Hivatalos, részletes elméleti és gyakorlati projekt-dokumentáció.
+* `G8ALX0_Dokumentacio/` – A megvalósítás lépéseit igazoló screenshotok (01-től 11-es sorszámig).
+
+## ☁️ Kiépített Azure Infrastruktúra Összefoglaló
+
+Minden erőforrás a **North Europe** régióban, az előírásoknak megfelelő elnevezési konvenciókkal és költséghatékony (Basic/B-tier) méretezéssel került kiépítésre:
+
+1.  **Erőforráscsoport (Resource Group):** `G8ALX0_RG` – Központi logikai konténer.
+2.  **Virtuális Gép (IaaS):** `G8ALX0_VM` – Windows Server 2022 Datacenter, engedélyezett RDP (3389) porttal és sikeresen tesztelt távoli asztali kapcsolattal.
+3.  **Adatbázis Szolgáltatás (PaaS):** `g8alx0-sqlserver` (logikai szerver) és `G8ALX0_DB` (relációs adatbázis), szigorított IP-alapú tűzfalszabályokkal és engedélyezett Azure-belső routinggal.
+4.  **Gyakorlati Verifikáció:** Az Azure Query Editor felületén sikeresen futtatott, egyedi tervezésű 3-táblás relációs adatmodell (Diablo II karakterkasztok, játékverziók és kiegészítők sémája).
+
