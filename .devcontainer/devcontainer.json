@@ -1,0 +1,37 @@
+{
+  "name": "Terraform Workspace",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    // Installs the Terraform CLI and tflint automatically
+    "ghcr.io/devcontainers/features/terraform:1": {
+      "version": "latest",
+      "tflint": "latest"
+    },
+    // Uncomment your cloud provider CLI if needed:
+    // "ghcr.io/devcontainers/features/aws-cli:1": "latest"
+    "ghcr.io/devcontainers/features/azure-cli:1": "latest"
+    // "ghcr.io/devcontainers/features/gfont/gcloud-cli:1": "latest"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "hashicorp.terraform", // Official syntax highlighting & autocomplete
+        "antonkulikov.tflint", // Linter to catch cloud provider errors
+        "ms-azuretools.vscode-docker", // Docker management tools
+        "runatlantis.atlantis" // Recommended if using Atlantis GitOps
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "hashicorp.terraform",
+        "terraform.experimentalFeatures.validateOnSave": true
+      }
+    }
+  },
+  // Persist cache to avoid slow 'terraform init' runs across container rebuilds
+  "mounts": [
+    "source=tf-plugin-cache,target=/home/vscode/.terraform.d/plugin-cache,type=volume"
+  ],
+  "containerEnv": {
+    "TF_PLUGIN_CACHE_DIR": "/home/vscode/.terraform.d/plugin-cache"
+  }
+}
