@@ -2,6 +2,8 @@
 
 Üdvözöllek a **Felhőalapú számítástechnika** kurzus hivatalos repository gyűjteményében! Ez az organizáció a félév során elkészített feladatokat, adatmodelleket és lekérdezéseket tartalmazza, különös tekintettel az Azure erőforrásokra.
 
+További információ [itt](https://io.uni-eszterhazy.hu/downloadCourseInfo/101962)
+
 ## Technológiai fókusz
 
 A kurzus során az alábbi rendszerek mélyebb megismerésére koncentrálunk:
