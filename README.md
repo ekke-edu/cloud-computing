@@ -4,6 +4,8 @@
 
 További információ [itt](https://io.uni-eszterhazy.hu/downloadCourseInfo/101962)
 
+>🎓[AWS Student Rewards](https://builder.aws.com/content/3IRJEGWoUOpmcx9pVHiUGTeXu2t/aws-student-rewards-the-fastest-road-to-21-badges) ingyenes hivatalos képzések.
+
 ## Technológiai fókusz
 
 A kurzus során az alábbi rendszerek mélyebb megismerésére koncentrálunk:
