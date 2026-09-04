@@ -1,3 +1,7 @@
+![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=flat&logo=terraform&logoColor=white)
+![OpenTofu](https://img.shields.io/badge/OpenTofu-FFDA18?style=flat&logo=opentofu&logoColor=black)
+![IaC](https://img.shields.io/badge/IaC-Infrastructure_as_Code-000000?style=flat)
+
 # Azure-900 Alapok Terraform-mal
 
 Ez a projekt az **Azure-900** vizsga alapvető Azure szolgáltatásait mutatja be Terraform infrastruktúra kód segítségével.
