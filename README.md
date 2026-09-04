@@ -18,8 +18,8 @@ Az organizáció az alábbi bontásban tartalmazza a projekteket:
 
 | Projekt | Leírás | Technológia |
 | :--- | :--- | :--- |
-| `terraform` | IaC AZ-900 témakörben | Terraform |
-| `finals` | A féléves nagyprojekt dokumentációja és kódja | Terraform dokumentációval  |
+| `feature/cicd-gh-pages` | Github action és CICD témakör | Markdown, GH Actions |
+| `feature/terraform` | IaC AZ-900 témakörben | Terraform  |
 
 ## Eszközök és környezet
 
@@ -29,6 +29,3 @@ A feladatok futtatásához az alábbiak szükségesek:
 
 ## Link
 https://mslearn.cloudguides.com/guides/AZ-900%20Exam%20Guide%20-%20Azure%20Fundamentals
-
----
-*Készült a 2026/27-os tanévben.*
