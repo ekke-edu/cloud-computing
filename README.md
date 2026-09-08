@@ -27,3 +27,7 @@ A feladatok futtatásához az alábbiak szükségesek:
 
 ## Hasznos linkek
 - [AZ-900 Exam Guide – Azure Fundamentals](https://mslearn.cloudguides.com/guides/AZ-900%20Exam%20Guide%20-%20Azure%20Fundamentals)
+
+## Licenc
+
+Ez a projekt az MIT Licenc alatt áll – a részletekért válaszd a [LICENSE](LICENSE) fájlt.
