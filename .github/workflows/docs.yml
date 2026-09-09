@@ -4,9 +4,10 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'docs/**'
+      - '.github/workflows/docs.yml'
 
 jobs:
   call-central-workflow:
     uses: ekke-edu/.github/.github/workflows/mkdocs-deploy.yml@main
-    with:
-      action: deploy-docs
