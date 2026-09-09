@@ -27,13 +27,13 @@ nav:
 plugins:
   - search
   - i18n:
-      default_language: hu
       docs_structure: suffix
       languages:
-        hu: 
+        - locale: hu
           name: Magyar
+          default: true
           build: true
-        en: 
+        - locale: en
           name: English
           build: true
           nav_translations:
