@@ -37,7 +37,7 @@ theme:
             name: English
             build: true
             nav_translations:
-              - Kezdőlap: Home
-              - Felhőszolgáltatások: Cloud Services
-              - IaC: IaC
-              - GitHub Actions: GitHub Actions
+              Kezdőlap: Home
+              Felhőszolgáltatások: Cloud Services
+              IaC: IaC
+              GitHub Actions: GitHub Actions
