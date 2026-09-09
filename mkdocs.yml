@@ -11,15 +11,15 @@ theme:
   
   extra: 
     alternate:
-      - name: English
-        link: /cloud-computing/en/
-        lang: en
       - name: Magyar
         link: /cloud-computing/
         lang: hu
+      - name: English
+        link: /cloud-computing/en/
+        lang: en
 
   nav:
-    - Home: index.md
+    - Kezdőlap: index.md
     - Felhőszolgáltatások: cloud-services.md
     - IaC: iac.md
     - GitHub Actions: github-actions.md
@@ -30,9 +30,14 @@ theme:
         default_language: hu
         docs_structure: suffix
         languages:
-          en: 
-            name: English
-            build: true
           hu: 
             name: Magyar
             build: true
+          en: 
+            name: English
+            build: true
+            nav_translations:
+              - Kezdőlap: Home
+              - Felhőszolgáltatások: Cloud Services
+              - IaC: IaC
+              - GitHub Actions: GitHub Actions
