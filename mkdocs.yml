@@ -1,0 +1,15 @@
+site_name: Felhőalapú számítástechnika
+site_description: Kurzus dokumentáció és IaC segédanyagok
+site_url: https://ekke-edu.github.io/cloud-computing/
+
+theme: 
+  name: material
+  language: hu
+  features:
+    - navigation.tabs
+    - navigation.top
+  nav:
+    - Home: index.md
+    - Felhőszolgáltatások: cloud-services.md
+    - IaC: iac.md
+    - GitHub Actions: github-actions.md
