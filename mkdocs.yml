@@ -12,10 +12,10 @@ theme:
   extra: 
     alternate:
       - name: English
-        link: https://ekke-edu.github.io/cloud-computing/en/
+        link: /cloud-computing/en/
         lang: en
       - name: Magyar
-        link: https://ekke-edu.github.io/cloud-computing/
+        link: /cloud-computing/
         lang: hu
 
   nav:
