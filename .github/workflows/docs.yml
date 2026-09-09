@@ -10,6 +10,6 @@ on:
 
 jobs:
   call-central-workflow:
-    uses: ekke-edu/.github/workflows/call-central-workflow.yml
+    uses: ekke-edu/cloud-computing/.github/workflows/call-central-workflow.yml@main
     with:
       workflow: deploy-docs
