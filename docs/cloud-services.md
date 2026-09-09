@@ -21,5 +21,3 @@ A felhőszolgáltatások lehetővé teszik:
 ## 🧠 AZ-900 szemlélet
 
 Az AZ-900 alapvető felhőfogalmakat és Azure-architektúrákat ismerteti meg a tanulókkal, különös tekintettel a felhőplatform, a szolgáltatásmodellek és az identitásbiztonság területeire.
-
----

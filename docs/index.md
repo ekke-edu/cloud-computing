@@ -15,5 +15,3 @@
 ## 🧭 Rövid áttekintés
 
 A kurzus során a felhőalapú gondolkodásmód, az Azure-alapú szolgáltatások és a modern DevOps eszközök kerülnek előtérbe. A projekt célja, hogy az elméleti tudás mellett gyakorlati példákon keresztül is megértsd a felhőinfrastruktúra és az automatizált üzemeltetés működését.
-
----

@@ -25,5 +25,3 @@ A **GitHub Actions** egy automatizált workflow-rendszer, amely lehetővé teszi
 - gyorsabb és hibamentesebb kiadási folyamat
 - gyakorlatias automatizált dokumentációkezelés
 - közös, reprodukálható build és deploy flow
-
----

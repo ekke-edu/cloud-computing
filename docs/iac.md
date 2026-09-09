@@ -40,5 +40,3 @@ Az **Infrastruktúra mint kód** (Infrastructure as Code, IaC) megközelítés l
 ## ✅ Miért fontos?
 
 Az IaC nemcsak gyorsabb és biztonságosabb infrastruktúra-telepítést tesz lehetővé, hanem a felhőeszközök változásainak nyomon követését is. Ez alapvető a modern DevOps és cloud architektúrák kialakításában.
-
----
