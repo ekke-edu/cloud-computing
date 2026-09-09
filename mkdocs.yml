@@ -8,36 +8,36 @@ theme:
   features:
     - navigation.tabs
     - navigation.top
-  
-  extra: 
-    alternate:
-      - name: Magyar
-        link: /cloud-computing/
-        lang: hu
-      - name: English
-        link: /cloud-computing/en/
-        lang: en
 
-  nav:
-    - Kezdőlap: index.md
-    - Felhőszolgáltatások: cloud-services.md
-    - IaC: iac.md
-    - GitHub Actions: github-actions.md
+extra: 
+  alternate:
+    - name: Magyar
+      link: /cloud-computing/
+      lang: hu
+    - name: English
+      link: /cloud-computing/en/
+      lang: en
 
-  plugins:
-    - search
-    - i18n:
-        default_language: hu
-        docs_structure: suffix
-        languages:
-          hu: 
-            name: Magyar
-            build: true
-          en: 
-            name: English
-            build: true
-            nav_translations:
-              Kezdőlap: Home
-              Felhőszolgáltatások: Cloud Services
-              IaC: IaC
-              GitHub Actions: GitHub Actions
+nav:
+  - Kezdőlap: index.md
+  - Felhőszolgáltatások: cloud-services.md
+  - IaC: iac.md
+  - GitHub Actions: github-actions.md
+
+plugins:
+  - search
+  - i18n:
+      default_language: hu
+      docs_structure: suffix
+      languages:
+        hu: 
+          name: Magyar
+          build: true
+        en: 
+          name: English
+          build: true
+          nav_translations:
+            Kezdőlap: Home
+            Felhőszolgáltatások: Cloud Services
+            IaC: IaC
+            GitHub Actions: GitHub Actions
