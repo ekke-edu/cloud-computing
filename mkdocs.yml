@@ -8,8 +8,31 @@ theme:
   features:
     - navigation.tabs
     - navigation.top
+  
+  extra: 
+    alternate:
+      - name: English
+        link: https://ekke-edu.github.io/cloud-computing/en/
+        lang: en
+      - name: Magyar
+        link: https://ekke-edu.github.io/cloud-computing/
+        lang: hu
+
   nav:
     - Home: index.md
     - Felhőszolgáltatások: cloud-services.md
     - IaC: iac.md
     - GitHub Actions: github-actions.md
+
+  plugins:
+    - search
+    - i18n:
+        default_language: hu
+        docs_structure: suffix
+        languages:
+          en: 
+            name: English
+            build: true
+          hu: 
+            name: Magyar
+            build: true
