@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <url>
+        <loc>https://ekke-edu.github.io/cloud-computing/</loc>
+        <lastmod>2026-09-09</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="hu" href="https://ekke-edu.github.io/cloud-computing/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ekke-edu.github.io/cloud-computing/en/"/>
+    </url>
+    <url>
+        <loc>https://ekke-edu.github.io/cloud-computing/cloud-services/</loc>
+        <lastmod>2026-09-09</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="hu" href="https://ekke-edu.github.io/cloud-computing/cloud-services/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ekke-edu.github.io/cloud-computing/en/cloud-services/"/>
+    </url>
+    <url>
+        <loc>https://ekke-edu.github.io/cloud-computing/github-actions/</loc>
+        <lastmod>2026-09-09</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="hu" href="https://ekke-edu.github.io/cloud-computing/github-actions/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ekke-edu.github.io/cloud-computing/en/github-actions/"/>
+    </url>
+    <url>
+        <loc>https://ekke-edu.github.io/cloud-computing/iac/</loc>
+        <lastmod>2026-09-09</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="hu" href="https://ekke-edu.github.io/cloud-computing/iac/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ekke-edu.github.io/cloud-computing/en/iac/"/>
+    </url>
+    <url>
+        <loc>https://ekke-edu.github.io/cloud-computing/en/</loc>
+        <lastmod>2026-09-09</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ekke-edu.github.io/cloud-computing/en/"/>
+        <xhtml:link rel="alternate" hreflang="hu" href="https://ekke-edu.github.io/cloud-computing/"/>
+    </url>
+    <url>
+        <loc>https://ekke-edu.github.io/cloud-computing/en/cloud-services/</loc>
+        <lastmod>2026-09-09</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ekke-edu.github.io/cloud-computing/en/cloud-services/"/>
+        <xhtml:link rel="alternate" hreflang="hu" href="https://ekke-edu.github.io/cloud-computing/cloud-services/"/>
+    </url>
+    <url>
+        <loc>https://ekke-edu.github.io/cloud-computing/en/github-actions/</loc>
+        <lastmod>2026-09-09</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ekke-edu.github.io/cloud-computing/en/github-actions/"/>
+        <xhtml:link rel="alternate" hreflang="hu" href="https://ekke-edu.github.io/cloud-computing/github-actions/"/>
+    </url>
+    <url>
+        <loc>https://ekke-edu.github.io/cloud-computing/en/iac/</loc>
+        <lastmod>2026-09-09</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ekke-edu.github.io/cloud-computing/en/iac/"/>
+        <xhtml:link rel="alternate" hreflang="hu" href="https://ekke-edu.github.io/cloud-computing/iac/"/>
+    </url>
+</urlset>
